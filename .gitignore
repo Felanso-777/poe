@@ -1,0 +1,28 @@
+# Node Dependencies 📦
+node_modules/
+npm-debug.log*
+
+# Environment & Secrets 🔑
+.env
+.secrets/
+secrets/
+
+# Hardhat Build Artifacts & Contracts ⚙️
+/cache
+/artifacts
+/typechain
+/typechain-types
+/coverage
+/coverage.json
+ignition/deployments/chain-31337
+
+# Python Environment & Bytecode 🐍
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Test Reports & User Data 📊
+USER_*/
+session_report.json
+node_modules
