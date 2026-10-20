@@ -1,0 +1,12 @@
+{
+  "metadata_version": "1.0",
+  "model_version": "logistic-baseline-1.0",
+  "algorithm": "multiclass logistic regression",
+  "feature_version": "2.0",
+  "training_data_schema_version": "1.0",
+  "notes": [
+    "Replace this metadata and the model parameters together.",
+    "Evaluation splits must be session-disjoint to prevent leakage.",
+    "Predictions describe recorded activity patterns and do not prove authorship."
+  ]
+}

@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { @apply bg-chalk; }
+  body { @apply bg-chalk font-sans text-ink antialiased; }
+  h1, h2, h3 { @apply font-display tracking-tight; }
+  code { @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.85em]; }
+  button, a, input { -webkit-tap-highlight-color: transparent; }
+  :focus-visible { @apply outline-none ring-2 ring-poe-600 ring-offset-2 ring-offset-chalk; }
+}
+
+@layer components {
+  .card { @apply rounded-xl border border-slate-200 bg-white; }
+  .label { @apply mb-1.5 block text-[13px] font-medium text-slate-600; }
+  .input { @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm placeholder:text-slate-400 focus:border-poe-600 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500; }
+  .btn-primary { @apply inline-flex items-center justify-center rounded-lg bg-poe-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-poe-700 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-ghost { @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50; }
+  .note { @apply rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-600; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin, .animate-ping { animation: none; }
+}
