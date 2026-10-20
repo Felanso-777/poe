@@ -1,19 +1,36 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Fingerprint from "../components/Fingerprint";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Connect to Supabase auth later
-    alert("Sign in clicked: " + form.email);
+    setErrorMsg("");
+    setLoading(true);
+    try {
+      const { error } = await signIn(form.email, form.password);
+      if (error) {
+        setErrorMsg(error.message);
+      } else {
+        navigate("/", { replace: true });
+      }
+    } catch (err) {
+      setErrorMsg(err.message || "Sign in failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,6 +52,11 @@ export default function Login() {
 
           {/* Form Body */}
           <div className="p-6 space-y-5">
+            {errorMsg && (
+              <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-sm text-rose-800">
+                {errorMsg}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
@@ -96,9 +118,10 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-poe-600 hover:bg-poe-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-poe-500 transition-all active:scale-95"
+                disabled={loading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-poe-600 hover:bg-poe-700 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-poe-500 transition-all active:scale-95"
               >
-                Sign in
+                {loading ? "Signing in…" : "Sign in"}
               </button>
             </form>
 

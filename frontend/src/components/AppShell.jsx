@@ -9,6 +9,7 @@ const navigation = [
   { to: "/", label: "Overview", end: true, d: "M3 11l9-8 9 8M5 10v10h14V10" },
   { to: "/history", label: "Session history", d: "M4 6h16M4 12h16M4 18h10" },
   { to: "/verify", label: "Verify a session", d: "M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM8.5 12l2.5 2.5 4.5-5" },
+  { to: "/profile", label: "Profile", d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" },
 ];
 
 export default function AppShell() {
