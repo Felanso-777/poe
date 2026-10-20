@@ -1,0 +1,35 @@
+# requirements-collector.txt
+#
+# Runtime dependencies for the `collector` package (Phases 2 + 3).
+#
+# Core runtime (stdlib only — works on Windows, macOS, Linux):
+#   dataclasses, datetime, enum, hashlib, json, logging, pathlib,
+#   random, threading, time, typing, uuid
+#
+# No third-party packages are required for the core collector or Merkle layer.
+#
+# --------------------------------------------------------------------------
+# Optional: eBPF/BCC collector (Linux only, Phase 3 Part A)
+# --------------------------------------------------------------------------
+# Required ONLY when using eBPFCollector with real kernel events.
+# The mock collector and Merkle aggregation work without this.
+#
+#   sudo apt install python3-bcc        # Debian/Ubuntu
+#   sudo dnf install bcc-tools          # Fedora/RHEL
+#   pip install bcc                     # some distributions (if packaged)
+#
+# Also requires root or CAP_BCC+CAP_PERFMON privileges at runtime.
+#   sudo python main.py run
+#
+# bcc                    # Linux only — not available via pip on all distros
+#
+# --------------------------------------------------------------------------
+# Development / testing only (all platforms)
+# --------------------------------------------------------------------------
+pytest>=7.0
+
+# Windows production agent
+watchdog>=3.0
+psutil>=5.9
+pyinstaller>=6.0
+python-dotenv>=1.0

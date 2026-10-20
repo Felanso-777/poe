@@ -1,0 +1,14 @@
+{
+  "name": "poe-blockchain",
+  "version": "1.0.0",
+  "description": "Proof of Effort – AuditLedger Solidity contract and Hardhat toolchain",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.29.1"
+  }
+}
