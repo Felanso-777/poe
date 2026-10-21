@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Fingerprint from "../components/Fingerprint";
 
 export default function Register() {
@@ -11,6 +12,10 @@ export default function Register() {
   });
   const [terms, setTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -21,10 +26,35 @@ export default function Register() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Connect to Supabase auth later
-    alert("Create account clicked: " + form.email);
+    setErrorMsg("");
+    setLoading(true);
+
+    const passwordsMatch = form.password === form.confirmPassword;
+    if (!passwordsMatch) {
+      setErrorMsg("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+    if (form.password.length < 6) {
+      setErrorMsg("Password must be at least 6 characters");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { error } = await signUp(form.email, form.password, form.fullName);
+      if (error) {
+        setErrorMsg(error.message);
+      } else {
+        navigate("/", { replace: true });
+      }
+    } catch (err) {
+      setErrorMsg(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const passwordsMatch = form.password === form.confirmPassword;
@@ -48,6 +78,11 @@ export default function Register() {
 
           {/* Form Body */}
           <div className="p-6 space-y-4">
+            {errorMsg && (
+              <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-sm text-rose-800">
+                {errorMsg}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="fullName" className="block text-sm font-medium text-slate-700 mb-1">
@@ -156,10 +191,10 @@ export default function Register() {
 
               <button
                 type="submit"
-                disabled={!terms || !passwordsMatch || form.password.length < 6}
+                disabled={!terms || !passwordsMatch || form.password.length < 6 || loading}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-poe-600 hover:bg-poe-700 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-poe-500 transition-all active:scale-95"
               >
-                Create account
+                {loading ? "Creating account…" : "Create account"}
               </button>
             </form>
 
